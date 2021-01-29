@@ -1,7 +1,7 @@
 const db = require('../db')
 
 const { generateID } = require('../helpers/validation')
-const { hashPassword, isEmpty, validateEmail, validatePassword } = require('../helpers/validation')
+const { hashPassword, isEmpty, validateEmail, validatePassword, comparePassword, generateUserToken } = require('../helpers/validation')
 const { successMessage, errorMessage, status } = require('../helpers/status')
 
 const signUpCustomer = async (req, res) => {
@@ -55,6 +55,51 @@ const signUpCustomer = async (req, res) => {
     }
 }
 
+const signInCustomer = async (req, res) => {
+    const { username, password } = req.body
+
+    if (isEmpty(username) || isEmpty(password)) {
+        errorMessage.error = 'Email and username cannot be empty'
+        return res.status(status.bad).send(errorMessage)
+    }
+
+    if (!validatePassword(password)) {
+        errorMessage.error = 'Password must be more than 6 characters'
+        return res.status(status.bad).send(errorMessage)
+    }
+
+    const signInCustomerQuery = `
+    SELECT * FROM customer 
+    WHERE username = $1
+    `
+    const values = [username]
+
+    try {
+        const { rows } = await db.query(signInCustomerQuery, values)
+        const dbResult = rows[0]
+        if (!dbResult) {
+            errorMessage.error = 'This username does not exist'
+            return res.status(status.notfound).send(errorMessage)
+        }
+
+        if (!comparePassword(dbResult.password, password)) {
+            errorMessage.error = 'Invalid password'
+            return res.status(status.bad).send(errorMessage)
+        }
+        const token = generateUserToken(dbResult.customer_id)
+        delete dbResult.password
+        successMessage.data = dbResult
+        successMessage.data.token = token
+        return res.status(status.success).send(successMessage)
+
+    } catch (error) {
+        console.log(error)
+        errorMessage.error = 'Operation was not successful'
+        return res.status(status.error).send(errorMessage)
+    }
+}
+
 module.exports = {
-    signUpCustomer
+    signUpCustomer,
+    signInCustomer
 }
