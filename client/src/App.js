@@ -1,7 +1,11 @@
+import { Navbar } from './components/Navbar'
+import Routing from './routes'
+
 const App = () => {
   return (
     <div className="App">
-      <h1>This is App</h1>
+      <Navbar />
+      <Routing />
     </div>
   )
 }
