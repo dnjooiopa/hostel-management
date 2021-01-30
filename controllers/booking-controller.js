@@ -29,31 +29,28 @@ const getBookings = async (req, res) => {
 
 const createBooking = async (req, res) => {
     const { customer_id } = req.user
-    const { hotel_id, status:booking_status, check_in_date, check_out_date, booking_date, total_price } = req.body
-    console.log(req.body)
+    const { hotel_id, room_id, check_in_date, check_out_date, booking_date, no_guest} = req.body
 
-    if (isEmpty(customer_id) || isEmpty(hotel_id) || isEmpty(check_in_date) || isEmpty(check_in_date) || isEmpty(check_out_date) || isEmpty(booking_date)) {
-        errorMessage.error = 'Data provided is empty'
+    if (isEmpty(customer_id) || isEmpty(hotel_id) || isEmpty(check_in_date) || isEmpty(check_in_date) || isEmpty(check_out_date)) {
+        errorMessage.error = 'Fields cannot be empty'
         return res.status(status.bad).send(errorMessage)
     }
 
     const createBookingQuery = `
     INSERT INTO booking
-    (booking_id, hotel_id,  customer_id, status, check_in_date, check_out_date, booking_date, total_price)
+    (booking_id, hotel_id, room_id, customer_id, check_in_date, check_out_date, booking_date, no_guest)
     VALUES
     ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
     `
     const booking_id = generateID()
-    const values = [booking_id, hotel_id, customer_id, booking_status, check_in_date, check_out_date, booking_date, total_price]
-
+    const values = [booking_id, hotel_id, room_id, customer_id, check_in_date, check_out_date, booking_date, no_guest]
     try {
         const { rows } = await db.query(createBookingQuery, values)
         const dbResult = rows[0]
         successMessage.data = dbResult
         return res.status(status.success).send(successMessage)
     } catch (error) {
-        console.log(error)
         errorMessage.error = 'Operation was not successful'
         return res.status(status.error).send(errorMessage)
     }
