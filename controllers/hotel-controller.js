@@ -2,6 +2,7 @@ const db = require('../db')
 
 const { isEmpty } = require('../helpers/validation')
 const { status, successMessage, errorMessage } = require('../helpers/status')
+const getFacility = require('./facility-controller')
 
 const searchHotel = async (req, res) => {
 
@@ -49,8 +50,14 @@ const getHotelData = async (req, res) => {
             errorMessage.error = 'This hotel does not exist'
             return res.status(status.notfound).send(errorMessage)
         }
+        const facility = await getFacility(hotel_id)
+        if(!facility){
+            errorMessage.error = 'Cannot get facility data'
+            return res.status(status.notfound).send(errorMessage)
+        }
+
         delete dbResult.document
-        successMessage.data = dbResult
+        successMessage.data = {...dbResult, facility}
         return res.status(status.success).send(successMessage)
     } catch (error) {
         errorMessage.error = 'Operation was not successful'
