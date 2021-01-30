@@ -55,7 +55,7 @@ const registerCustomer = async (req, res) => {
     }
 }
 
-const signInCustomer = async (req, res) => {
+const logInCustomer = async (req, res) => {
     const { username, password } = req.body
 
     if (isEmpty(username) || isEmpty(password)) {
@@ -68,14 +68,14 @@ const signInCustomer = async (req, res) => {
         return res.status(status.bad).send(errorMessage)
     }
 
-    const signInCustomerQuery = `
+    const logInCustomerQuery = `
     SELECT * FROM customer 
     WHERE username = $1
     `
     const values = [username]
 
     try {
-        const { rows } = await db.query(signInCustomerQuery, values)
+        const { rows } = await db.query(logInCustomerQuery, values)
         const dbResult = rows[0]
         if (!dbResult) {
             errorMessage.error = 'This username does not exist'
@@ -101,5 +101,5 @@ const signInCustomer = async (req, res) => {
 
 module.exports = {
     registerCustomer,
-    signInCustomer
+    logInCustomer
 }

@@ -1,8 +1,8 @@
-const { registerCustomer, signInCustomer } = require('../controllers/authentication-controller')
+const { registerCustomer, logInCustomer } = require('../controllers/authentication-controller')
 
 const router = require('express').Router()
 
 router.post('/register', registerCustomer)
-router.post('/signin', signInCustomer)
+router.post('/login', logInCustomer)
 
 module.exports = router
