@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  font-family: 'Mitr', sans-serif;
+}
+
+.app {
+    text-align: center;
+}
+
+.container {
+  width: 1024px;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  margin: 8px auto;
+}
