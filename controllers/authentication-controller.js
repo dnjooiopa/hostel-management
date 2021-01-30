@@ -86,7 +86,7 @@ const logInCustomer = async (req, res) => {
             errorMessage.error = 'Invalid password'
             return res.status(status.bad).send(errorMessage)
         }
-        const token = generateUserToken(dbResult.customer_id)
+        const token = generateUserToken(dbResult.customer_id, dbResult.first_name, dbResult.last_name)
         delete dbResult.password
         successMessage.data = dbResult
         successMessage.data.token = token
