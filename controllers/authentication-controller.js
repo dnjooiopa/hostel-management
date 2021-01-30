@@ -4,7 +4,7 @@ const { generateID } = require('../helpers/validation')
 const { hashPassword, isEmpty, validateEmail, validatePassword, comparePassword, generateUserToken } = require('../helpers/validation')
 const { successMessage, errorMessage, status } = require('../helpers/status')
 
-const signUpCustomer = async (req, res) => {
+const registerCustomer = async (req, res) => {
     const { username, email, first_name, last_name, birth_date, phone, password } = req.body
 
     if (isEmpty(username) || isEmpty(email) || isEmpty(first_name) || isEmpty(email) || isEmpty(last_name) || isEmpty(birth_date) || isEmpty(phone)) {
@@ -23,7 +23,7 @@ const signUpCustomer = async (req, res) => {
     }
 
     const hashedPassword = hashPassword(password)
-    const createCustomerQuery = `
+    const registerCustomerQuery = `
         INSERT INTO customer
         (customer_id, first_name, last_name, birth_date, phone, email, username, password)
         VALUES($1, $2, $3, $4, $5, $6, $7, $8)
@@ -40,7 +40,7 @@ const signUpCustomer = async (req, res) => {
     ]
 
     try {
-        const { rows } = await db.query(createCustomerQuery, values)
+        const { rows } = await db.query(registerCustomerQuery, values)
         successMessage.data = rows[0]
         delete successMessage.data.password
         return res.status(status.created).send(successMessage)
@@ -100,6 +100,6 @@ const signInCustomer = async (req, res) => {
 }
 
 module.exports = {
-    signUpCustomer,
+    registerCustomer,
     signInCustomer
 }
