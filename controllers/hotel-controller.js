@@ -1,25 +1,21 @@
 const db = require('../db')
 
 const { status, successMessage, errorMessage } = require('../helpers/status')
-const { isEmpty } = require('../helpers/validation')
 
 const searchHotel = async (req, res) => {
 
-    const { search_text } = req.query
-
-    if (isEmpty(search_text)) {
-        errorMessage.error = 'Please provide search text'
-        return res.status(status.bad).send(errorMessage)
-    }
+    const search_text = req.query.search_text
+    const limit = req.query.limit || 5
 
     const searchQuery = `
     SELECT * FROM hotel
-    WHERE document @@ to_tsquery($1)
+    ${search_text ? `WHERE document @@ to_tsquery('${search_text.split(' ').join('|')}')` : ''}
+    LIMIT ${limit}
     `
-    const values = [search_text.split(' ').join('|')]
-    
+    console.log(searchQuery)
+
     try {
-        const { rows } = await db.query(searchQuery, [values])
+        const { rows } = await db.query(searchQuery)
         dbResults = rows.map(row => {
             delete row.document
             return row
