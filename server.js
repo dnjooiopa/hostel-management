@@ -6,6 +6,7 @@ const customerRoute = require('./routes/customer-route')
 const hotelRoute = require('./routes/hotel-route')
 const roomTypeRoute = require('./routes/room-type-route')
 const roomRoute = require('./routes/room-route')
+const bookingRoute = require('./routes/booking-route')
 
 const app = express()
 
@@ -16,6 +17,7 @@ app.use('/api', customerRoute)
 app.use('/api', hotelRoute)
 app.use('/api', roomTypeRoute)
 app.use('/api', roomRoute)
+app.use('/api', bookingRoute)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, ()=>{
