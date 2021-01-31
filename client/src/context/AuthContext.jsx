@@ -7,11 +7,15 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = window.localStorage.getItem('token')
-    setAuth(token ? JSON.parse(token) : null)
+    setAuth({ token: token || null })
   }, [])
 
   useEffect(() => {
-    window.localStorage.setItem('token', JSON.stringify(auth))
+    if (auth.token) {
+      window.localStorage.setItem('token', auth.token)
+    } else {
+      window.localStorage.clear()
+    }
   }, [auth])
 
   return (

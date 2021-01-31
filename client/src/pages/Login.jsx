@@ -1,9 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { login } from '../api'
+import { useHistory } from 'react-router-dom'
+import { AuthContext } from '../context'
 
 export const Login = () => {
+  const history = useHistory()
+
+  const { auth, setAuth } = useContext(AuthContext)
+
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
+
+  useEffect(() => {
+    if (auth.token) {
+      history.push('/')
+    }
+  }, [auth])
 
   const handleLogin = () => {
     login({ username, password })
@@ -13,6 +25,9 @@ export const Login = () => {
           alert(error)
         } else {
           console.log(data)
+          const { token } = data
+          setAuth({ token })
+          history.push('/')
         }
       })
       .catch((error) => console.log(error))
