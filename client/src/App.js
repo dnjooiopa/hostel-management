@@ -3,7 +3,7 @@ import Routing from './routes'
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="flex justify-center w-full flex-wrap">
       <Navbar />
       <Routing />
     </div>
