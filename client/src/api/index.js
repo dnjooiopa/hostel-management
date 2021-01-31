@@ -1,2 +1,2 @@
 export { login, register } from './authAPI'
-export { searchHotel } from './HotelAPI'
+export { searchHotel, getHotelData } from './HotelAPI'
