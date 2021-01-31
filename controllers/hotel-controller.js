@@ -17,11 +17,13 @@ const searchHotel = async (req, res) => {
 
     try {
         const { rows } = await db.query(searchQuery)
-        dbResults = rows.map(row => {
-            delete row.document
-            return row
-        })
-        successMessage.data = dbResults
+        const hotels = []
+        for (let hotel of rows) {
+            const { rows: rooms } = await db.query(`SELECT * FROM room WHERE hotel_id=$1`, [hotel.hotel_id])
+            hotels.push({ ...hotel, rooms })
+        }
+
+        successMessage.data = hotels
         return res.status(status.success).send(successMessage)
     } catch (error) {
         errorMessage.error = 'Operation was not successful'
@@ -51,13 +53,13 @@ const getHotelData = async (req, res) => {
             return res.status(status.notfound).send(errorMessage)
         }
         const facility = await getFacility(hotel_id)
-        if(!facility){
+        if (!facility) {
             errorMessage.error = 'Cannot get facility data'
             return res.status(status.notfound).send(errorMessage)
         }
 
         delete dbResult.document
-        successMessage.data = {...dbResult, facility}
+        successMessage.data = { ...dbResult, facility }
         return res.status(status.success).send(successMessage)
     } catch (error) {
         errorMessage.error = 'Operation was not successful'
