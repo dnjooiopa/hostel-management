@@ -1,17 +1,16 @@
-html {
-  height: 100%;
-}
-
 body {
   margin: 0;
   font-family: 'Mitr', sans-serif;
-  height: 100%;
 }
 
 #root {
   width: 100%;
   display: flex;
   height: 100%;
+}
+
+#side-bar {
+  min-height: 960px;
 }
 
 button {
@@ -53,6 +52,10 @@ a:hover {
 
 .w-12 {
   width: 48px;
+}
+
+.w-50 {
+  width: 200px;
 }
 
 .w-120 {
@@ -99,6 +102,10 @@ a:hover {
   margin-left: auto;
 }
 
+.ml-2 {
+  margin-left: 8px;
+}
+
 .ml-4 {
   margin-left: 16px;
 }
@@ -139,6 +146,10 @@ a:hover {
   flex-direction: column;
 }
 
+.flex-col-reverse {
+  flex-direction: column-reverse;
+}
+
 .flex-wrap {
   flex-wrap: wrap;
 }
@@ -147,12 +158,20 @@ a:hover {
   justify-content: center;
 }
 
+.content-end {
+  align-content: flex-end;
+}
+
 .align-center {
   align-items: center;
 }
 
 .items-start {
   align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
 }
 
 .rounded {
@@ -206,4 +225,17 @@ a:hover {
 }
 .font-bold {
   font-weight: 700;
+}
+
+.img-room {
+  width: 180px;
+  height: 200px;
+  background-color: burlywood;
+}
+
+.img-hotel {
+  width: 100%;
+  min-height: 480px;
+  background-color: burlywood;
+  border-radius: 5px;
 }

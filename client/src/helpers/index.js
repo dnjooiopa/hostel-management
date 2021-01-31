@@ -1,2 +1,2 @@
 export { status } from './status'
-export { comparePassword } from './validation'
+export { comparePassword, validateDate } from './validation'
