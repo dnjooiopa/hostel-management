@@ -1,1 +1,1 @@
-export { login } from './authAPI'
+export { login, register } from './authAPI'

@@ -14,15 +14,20 @@ export const Navbar = () => {
         <NavLink to="/">
           <div className="text-lg">Home</div>
         </NavLink>
-        {!auth.token ? (
-          <NavLink to="/login" className="ml-auto">
-            <button>Log In</button>
-          </NavLink>
-        ) : (
-          <button className="ml-auto" onClick={() => setAuth({ token: null })}>
-            Log Out
-          </button>
-        )}
+        <div className="ml-auto">
+          {!auth.token ? (
+            <>
+              <NavLink to="/login">
+                <button>Log In</button>
+              </NavLink>
+              <NavLink to="/register">
+                <button>Register</button>
+              </NavLink>
+            </>
+          ) : (
+            <button onClick={() => setAuth({ token: null })}>Log Out</button>
+          )}
+        </div>
       </div>
     </div>
   )
