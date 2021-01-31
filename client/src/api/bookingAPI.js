@@ -6,3 +6,9 @@ export const bookRoom = async ({ token, hotel_id, room_id, check_in_date, check_
         .catch(err => err.response)
 )
 
+export const getBookings = async ({ token }) => (
+    await axios.get('/api/bookings', { headers: { token } })
+        .then(res => res)
+        .catch(err => err.response)
+)
+

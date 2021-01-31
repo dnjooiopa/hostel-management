@@ -18,8 +18,14 @@ const getBookings = async (req, res) => {
 
     try {
         const { rows } = await db.query(getBookingsQuery, values)
-        const dbResults = rows
-        successMessage.data = dbResults
+        const bookings = []
+        for (let row of rows) {
+            const { rows: rooms } = await db.query(`SELECT * from room WHERE room_id=$1`, [row.room_id])
+            const { rows: hotels } = await db.query(`SELECT * from hotel WHERE hotel_id=$1`, [row.hotel_id])
+            bookings.push({ ...row, hotel: { ...hotels[0] }, room: {...rooms[0]} })
+        }
+
+        successMessage.data = bookings
         return res.status(status.success).send(successMessage)
     } catch (error) {
         errorMessage.error = 'Operation was not successful'
@@ -29,7 +35,7 @@ const getBookings = async (req, res) => {
 
 const createBooking = async (req, res) => {
     const { customer_id } = req.user
-    const { hotel_id, room_id, check_in_date, check_out_date, booking_date, no_guest} = req.body
+    const { hotel_id, room_id, check_in_date, check_out_date, booking_date, no_guest } = req.body
 
     if (isEmpty(customer_id) || isEmpty(hotel_id) || isEmpty(check_in_date) || isEmpty(check_in_date) || isEmpty(check_out_date)) {
         errorMessage.error = 'Fields cannot be empty'

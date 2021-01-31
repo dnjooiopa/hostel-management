@@ -11,7 +11,7 @@ export const Sidebar = () => {
           <Link to="#">Profile</Link>
         </div>
         <div>
-          <Link to="#">My booking</Link>
+          <Link to="/bookings">My booking</Link>
         </div>
       </div>
     </div>

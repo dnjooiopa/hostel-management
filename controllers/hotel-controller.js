@@ -20,9 +20,9 @@ const searchHotel = async (req, res) => {
         const hotels = []
         for (let hotel of rows) {
             const { rows: rooms } = await db.query(`SELECT * FROM room WHERE hotel_id=$1`, [hotel.hotel_id])
+            delete hotel.document
             hotels.push({ ...hotel, rooms })
         }
-
         successMessage.data = hotels
         return res.status(status.success).send(successMessage)
     } catch (error) {
@@ -48,18 +48,22 @@ const getHotelData = async (req, res) => {
     try {
         const { rows } = await db.query(getHotelQuery, values)
         const dbResult = rows[0]
+        delete dbResult.document
+
         if (!dbResult) {
             errorMessage.error = 'This hotel does not exist'
             return res.status(status.notfound).send(errorMessage)
         }
+
         const facility = await getFacility(hotel_id)
         if (!facility) {
             errorMessage.error = 'Cannot get facility data'
             return res.status(status.notfound).send(errorMessage)
         }
 
-        delete dbResult.document
-        successMessage.data = { ...dbResult, facility }
+        const { rows: rooms } = await db.query(`SELECT * FROM room WHERE hotel_id=$1`, [hotel_id])
+        
+        successMessage.data = { ...dbResult, facility, rooms }
         return res.status(status.success).send(successMessage)
     } catch (error) {
         errorMessage.error = 'Operation was not successful'
