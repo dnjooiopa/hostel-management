@@ -42,7 +42,7 @@ export const Hotel = () => {
   }, [])
 
   return (
-    <div className="w-256 p-6 m-2 rounded text-md">
+    <div className="w-256 p-6 m-2 mt-4 rounded text-md ml-auto mr-auto">
       <div className="w-full">
         <div className="mt-3 mb-3">
           <div className="font-semibold text-xl">{name}</div>
