@@ -17,9 +17,9 @@ export const Home = () => {
   }, [])
 
   return (
-    <div className="w-256">
-      <h1>Home page</h1>
-      <HotelGroup hotels={hotels} />
-    </div>
+      <div className="w-256 ml-auto mr-auto">
+        <h1>Home page</h1>
+        <HotelGroup hotels={hotels} />
+      </div>
   )
 }

@@ -1,12 +1,16 @@
+import { Sidebar } from './components'
 import { Navbar } from './components/Navbar'
 import Routing from './routes'
 
 const App = () => {
   return (
-    <div className="flex justify-center w-full flex-wrap">
-      <Navbar />
-      <Routing />
-    </div>
+    <>
+      <Sidebar />
+      <div className="w-full">
+        <Navbar />
+        <Routing />
+      </div>
+    </>
   )
 }
 
