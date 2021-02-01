@@ -1,6 +1,6 @@
 import { Switch, Route } from 'react-router-dom'
 
-import { Home, Login, Register, Hotel, Search, Booking } from '../pages'
+import { Home, Login, Register, Hotel, Search, Booking, Profile } from '../pages'
 
 export default () => (
     <Switch>
@@ -21,6 +21,9 @@ export default () => (
         </Route>
         <Route path='/bookings'>
             <Booking />
+        </Route>
+        <Route path='/profile'>
+            <Profile />
         </Route>
     </Switch>
 )

@@ -8,7 +8,7 @@ export const Sidebar = () => {
           <Link to="/">Home</Link>
         </div>
         <div>
-          <Link to="#">Profile</Link>
+          <Link to="/profile">Profile</Link>
         </div>
         <div>
           <Link to="/bookings">My booking</Link>
