@@ -1,4 +1,4 @@
-export { login, register } from './authAPI'
-export { searchHotel, getHotelData } from './hotelAPI'
-export { bookRoom, getBookings, deleteBooking } from './bookingAPI'
-export { getProfile } from './userAPI'
+export { login, register } from './auth-api'
+export { searchHotel, getHotelData } from './hotel-API'
+export { bookRoom, getBookings, deleteBooking } from './booking-api'
+export { getProfile } from './user-api'
