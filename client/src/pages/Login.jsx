@@ -17,7 +17,9 @@ export const Login = () => {
     }
   }, [auth])
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault()
+
     login({ username, password })
       .then((res) => {
         const { status, error, data } = res.data
@@ -34,20 +36,24 @@ export const Login = () => {
   }
 
   return (
-    <div className="container">
-      <input
-        type="text"
-        placeholder="username"
-        onChange={(e) => setUserName(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="button" onClick={handleLogin}>
-        Log In
-      </button>
+    <div className="w-full">
+      <div className="w-144 ml-auto mr-auto mt-2 p-6 flex items-center">
+        <form onSubmit={handleLogin} className="w-full flex flex-col align-center">
+            <input
+              type="text"
+              placeholder="username"
+              onChange={(e) => setUserName(e.target.value)}
+              className="w-64 h-8 m-2"
+            />
+            <input
+              type="password"
+              placeholder="password"
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-64 h-8 m-2"
+            />
+          <button className="w-64 h-8 m-2" type="submit">Log In</button>
+        </form>
+      </div>
     </div>
   )
 }

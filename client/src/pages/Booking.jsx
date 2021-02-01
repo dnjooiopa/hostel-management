@@ -1,16 +1,15 @@
 import { useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { getBookings, deleteBooking } from '../api'
 import { AuthContext } from '../context'
 
-export const BookingItem = ({ booking, cancleBooking }) => {
+export const BookingRow = ({ booking, cancleBooking }) => {
   const [totalPrice, setTotalPrice] = useState(0)
   const [checkInDate, setCheckInDate] = useState('')
   const [checkOutDate, setCheckOutDate] = useState('')
   const [bookingDate, setBookingDate] = useState('')
 
   useEffect(() => {
-    const start = new Date()
+    const start = new Date(booking.check_in_date)
     const end = new Date(booking.check_out_date)
     const days = Number.parseInt(
       (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
@@ -23,30 +22,20 @@ export const BookingItem = ({ booking, cancleBooking }) => {
   }, [])
 
   return (
-    <div className="rounded p-6 m-2">
-      <div>
-        <span className="text-md">HOTEL:</span> {booking.hotel.name}
-      </div>
-      <div>
-        <span className="text-md">ROOM:</span> {booking.room.room_type}
-      </div>
-      <div>
-        <span className="text-md">NUMBER OF GUEST:</span> {booking.no_guest}
-      </div>
-      <div>
-        <span className="text-md">CHECK-IN:</span> {checkInDate.substr(0, 21)}
-      </div>
-      <div>
-        <span className="text-md">CHECK-OUT:</span> {checkOutDate.substr(0, 21)}
-      </div>
-      <div>
-        <span className="text-md">BOOKING-DATE:</span> {bookingDate.substr(0, 21)}
-      </div>
-      <div>
-        <span className="text-md">TOTAL-PRICE(THB):</span> {totalPrice}
-      </div>
-      <button onClick={() => cancleBooking(booking.booking_id)}>Cancel</button>
-    </div>
+    <tr>
+      <td>{booking.hotel.name}</td>
+      <td>{booking.room.room_type}</td>
+      <td>{booking.no_guest}</td>
+      <td>{checkInDate.substr(0, 21)}</td>
+      <td>{checkOutDate.substr(0, 21)}</td>
+      <td>{bookingDate.substr(0, 21)}</td>
+      <td>{totalPrice}</td>
+      <td>
+        <button onClick={() => cancleBooking(booking.booking_id)}>
+          Cancel
+        </button>
+      </td>
+    </tr>
   )
 }
 
@@ -89,13 +78,25 @@ export const Booking = () => {
         <div className="flex rounded p-2 m-2 justify-center">
           <h2>My Bookings</h2>
         </div>
-        {bookings.map((booking) => (
-          <BookingItem
-            key={booking.booking_id}
-            booking={booking}
-            cancleBooking={cancleBooking}
-          />
-        ))}
+        <table>
+          <tr>
+            <th>Hotel</th>
+            <th>Room</th>
+            <th>Guest</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Booking-date</th>
+            <th>Total price(THB)</th>
+            <th></th>
+          </tr>
+          {bookings.map((booking) => (
+            <BookingRow
+              key={booking.booking_id}
+              booking={booking}
+              cancleBooking={cancleBooking}
+            />
+          ))}
+        </table>
       </div>
     )
   } else {

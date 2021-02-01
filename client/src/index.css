@@ -58,6 +58,10 @@ a:hover {
   width: 200px;
 }
 
+.w-64 {
+  width: 256px;
+}
+
 .w-120 {
   width: 480px;
 }
@@ -78,12 +82,24 @@ a:hover {
   width: 100%;
 }
 
-.h-12 {
-  height: 48px;
+.h-4 {
+  height: 16px;
+}
+
+.h-8 {
+  height: 32px;
 }
 
 .m-2 {
   margin: 8px;
+}
+
+.m-auto {
+  margin: auto;
+}
+
+.mt-2 {
+  margin-top: 8px;
 }
 
 .mt-3 {
@@ -121,6 +137,11 @@ a:hover {
 .mr-2 {
   margin-right: 8px;
 }
+
+.mr-24 {
+  margin-right: 96px;
+}
+
 
 .p-2 {
   padding: 8px;
@@ -242,4 +263,21 @@ a:hover {
   min-height: 480px;
   background-color: burlywood;
   border-radius: 5px;
+}
+
+table {
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+th {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+th, td {
+  border-bottom: 1px solid;
+  padding: 12px;
+  text-align: center;
 }

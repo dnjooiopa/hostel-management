@@ -54,78 +54,113 @@ export const Register = () => {
   }
 
   return (
-    <div className="w-256">
-      <div className="w-144 ml-auto mr-auto p-6 text-sm rounded m-2">
-        <form onSubmit={handleSubmit} className="flex flex-wrap">
-          <div className="w-full">
-            Username :{' '}
-            <input
-              type="text"
-              onChange={(e) => setUserName(e.target.value)}
-              pattern=".{5,}"
-              required
-              className="w-auto"
-            />
+    <div className="w-256 flex justify-center m-auto mt-4">
+      <div className="w-144 p-6 text-sm rounded m-2">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full flex flex-col items-center"
+        >
+          <div className="w-full flex">
+            <div className="ml-auto mr-24">
+              <span> Username : </span>
+              <input
+                type="text"
+                onChange={(e) => setUserName(e.target.value)}
+                pattern=".{5,}"
+                className="w-64 h-8 m-2"
+                placeholder="username"
+                required
+              />
+            </div>
           </div>
-          <div className="w-full">
-            Email:{' '}
-            <input
-              type="email"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+          <div className="w-full flex">
+            <div className="ml-auto mr-24">
+              <span> Email : </span>
+              <input
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-64 h-8 m-2"
+                placeholder="email@example.com"
+                required
+              />
+            </div>
           </div>
-          <div className="w-full">
-            Password:{' '}
-            <input
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-              pattern=".{6,}"
-              required
-            />
+          <div className="w-full flex">
+            <div className="ml-auto mr-24">
+              <span> Password : </span>
+              <input
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+                pattern=".{6,}"
+                className="w-64 h-8 m-2"
+                required
+              />
+            </div>
           </div>
-          <div className="w-full">
-            Confirm password:{' '}
-            <input
-              type="password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              pattern=".{6,}"
-              required
-            />
+          <div className="w-full flex">
+            <div className="ml-auto mr-24">
+              <span> Confirm password : </span>
+              <input
+                type="password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                pattern=".{6,}"
+                className="w-64 h-8 m-2"
+                required
+              />
+            </div>
           </div>
-          <div className="w-full">
-            First name:{' '}
-            <input
-              type="text"
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-            Last name:{' '}
-            <input
-              type="text"
-              onChange={(e) => setLastName(e.target.value)}
-              required
-            />
+          <div className="w-full flex">
+            <div className="ml-auto mr-24">
+              <span> First name : </span>
+              <input
+                type="text"
+                onChange={(e) => setFirstName(e.target.value)}
+                className="w-64 h-8 m-2"
+                placeholder="Firstname"
+                required
+              />
+            </div>
           </div>
-          <div className="w-full">
-            Birth date:{' '}
-            <input
-              type="date"
-              onChange={(e) => setBirthDate(e.target.value)}
-              required
-            />
+          <div className="w-full flex">
+            <div className="ml-auto mr-24">
+              <span> Last name : </span>
+              <input
+                type="text"
+                onChange={(e) => setLastName(e.target.value)}
+                className="w-64 h-8 m-2"
+                placeholder="Lastname"
+                required
+              />
+            </div>
           </div>
-          <div className="w-full">
-            Phone:{' '}
-            <input
-              type="text"
-              onChange={(e) => setPhone(e.target.value)}
-              pattern=".{10,10}"
-              required
-            />
+          <div className="w-full flex">
+            <div className="ml-auto mr-24">
+              <span> Birth date : </span>
+              <input
+                type="date"
+                onChange={(e) => setBirthDate(e.target.value)}
+                className="w-64 h-8 m-2"
+                required
+              />
+            </div>
           </div>
-          <div className="w-full">
-            <button type="submit">Register</button>
+          <div className="w-full flex">
+            <div className="ml-auto mr-24">
+              <span> Phone : </span>
+              <input
+                type="text"
+                onChange={(e) => setPhone(e.target.value)}
+                pattern=".{10,10}"
+                className="w-64 h-8 m-2"
+                placeholder="0912345678"
+                required
+              />
+            </div>
+          </div>
+          <div className="w-full flex justify-center">
+            <button className="w-64 h-8 m-2" type="submit">
+              Register
+            </button>
           </div>
         </form>
       </div>

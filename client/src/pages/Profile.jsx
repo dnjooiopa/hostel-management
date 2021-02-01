@@ -46,21 +46,21 @@ export const Profile = () => {
         </div>
         <div className="rounded p-6 mt-4 text-md">
           <div>
-            <span>NAME: </span>
+            <span>Name: </span>
             <span>
               {firstName} {lastName}
             </span>
           </div>
           <div>
-            <span>EMAIL: </span>
+            <span>Email: </span>
             <span>{email}</span>
           </div>
           <div>
-            <span>PHONE: </span>
+            <span>Phone: </span>
             <span>{phone}</span>
           </div>
           <div>
-            <span>BIRTH DATE: </span>
+            <span>Birth date: </span>
             <span>{birthDate}</span>
           </div>
         </div>
