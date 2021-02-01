@@ -1,10 +1,11 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../context'
 
 import hamburger from '../assets/hamburger.png'
 
 export const Navbar = () => {
+  const history = useHistory()
   const { auth, setAuth } = useContext(AuthContext)
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -17,6 +18,11 @@ export const Navbar = () => {
       document.getElementById('side-bar').style.display = 'flex'
       setIsSidebarOpen(true)
     }
+  }
+
+  const handleLogOut = () => {
+    setAuth({ token: null })
+    return history.push('/')
   }
 
   return (
@@ -45,7 +51,7 @@ export const Navbar = () => {
               </NavLink>
             </>
           ) : (
-            <button className="mr-2" onClick={() => setAuth({ token: null })}>
+            <button className="mr-2" onClick={() => handleLogOut()}>
               Log Out
             </button>
           )}

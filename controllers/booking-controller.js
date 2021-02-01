@@ -13,6 +13,7 @@ const getBookings = async (req, res) => {
     const getBookingsQuery = `
     SELECT * from booking
     WHERE customer_id = $1
+    ORDER BY booking_date DESC;
     `
     const values = [customer_id]
 
@@ -22,7 +23,7 @@ const getBookings = async (req, res) => {
         for (let row of rows) {
             const { rows: rooms } = await db.query(`SELECT * from room WHERE room_id=$1`, [row.room_id])
             const { rows: hotels } = await db.query(`SELECT * from hotel WHERE hotel_id=$1`, [row.hotel_id])
-            bookings.push({ ...row, hotel: { ...hotels[0] }, room: {...rooms[0]} })
+            bookings.push({ ...row, hotel: { ...hotels[0] }, room: { ...rooms[0] } })
         }
 
         successMessage.data = bookings
@@ -62,8 +63,33 @@ const createBooking = async (req, res) => {
     }
 }
 
+const deleteBooking = async (req, res) => {
+    const { booking_id } = req.headers
+
+    if (isEmpty(booking_id)) {
+        errorMessage.error = 'Booking id is empty'
+        return res.status(status.bad).send(errorMessage)
+    }
+
+    const deleteBookingQuery = `
+    DELETE FROM booking
+    WHERE booking_id = $1
+    RETURNING *
+    `
+    const values = [booking_id]
+
+    try {
+        const { rows } = await db.query(deleteBookingQuery, values)
+        successMessage.data = rows[0]
+        return res.status(status.success).send(successMessage)
+    } catch (error) {
+        errorMessage.error = 'Operation was not successful'
+        return res.status(status.error).send(errorMessage)
+    }
+}
 
 module.exports = {
     getBookings,
-    createBooking
+    createBooking,
+    deleteBooking
 }

@@ -122,6 +122,10 @@ a:hover {
   margin-right: 8px;
 }
 
+.p-2 {
+  padding: 8px;
+}
+
 .p-6 {
   padding: 24px;
 }

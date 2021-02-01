@@ -12,3 +12,9 @@ export const getBookings = async ({ token }) => (
         .catch(err => err.response)
 )
 
+export const deleteBooking = async ({ token, booking_id }) => (
+    await axios.delete('/api/bookings',  { headers: { token, booking_id } })
+        .then(res => res)
+        .catch(err => err.response)
+)
+
