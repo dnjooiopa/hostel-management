@@ -4,6 +4,24 @@ import { getBookings, deleteBooking } from '../api'
 import { AuthContext } from '../context'
 
 export const BookingItem = ({ booking, cancleBooking }) => {
+  const [totalPrice, setTotalPrice] = useState(0)
+  const [checkInDate, setCheckInDate] = useState('')
+  const [checkOutDate, setCheckOutDate] = useState('')
+  const [bookingDate, setBookingDate] = useState('')
+
+  useEffect(() => {
+    const start = new Date()
+    const end = new Date(booking.check_out_date)
+    const days = Number.parseInt(
+      (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+    )
+    setTotalPrice((days * Number.parseFloat(booking.room.price)).toFixed(2))
+
+    setCheckInDate(String(new Date(booking.check_in_date)))
+    setCheckOutDate(String(new Date(booking.check_out_date)))
+    setBookingDate(String(new Date(booking.booking_date)))
+  }, [])
+
   return (
     <div className="rounded p-6 m-2">
       <div>
@@ -16,19 +34,16 @@ export const BookingItem = ({ booking, cancleBooking }) => {
         <span className="text-md">NUMBER OF GUEST:</span> {booking.no_guest}
       </div>
       <div>
-        <span className="text-md">CHECK-IN:</span>{' '}
-        {new Date(booking.check_in_date).toUTCString()}
+        <span className="text-md">CHECK-IN:</span> {checkInDate.substr(0, 21)}
       </div>
       <div>
-        <span className="text-md">CHECK-OUT:</span>{' '}
-        {new Date(booking.check_out_date).toUTCString()}
+        <span className="text-md">CHECK-OUT:</span> {checkOutDate.substr(0, 21)}
       </div>
       <div>
-        <span className="text-md">BOOKING-DATE:</span>{' '}
-        {new Date(booking.booking_date).toUTCString()}
+        <span className="text-md">BOOKING-DATE:</span> {bookingDate.substr(0, 21)}
       </div>
       <div>
-        <span className="text-md">TOTAL-PRICE(THB):</span> {booking.room.price}
+        <span className="text-md">TOTAL-PRICE(THB):</span> {totalPrice}
       </div>
       <button onClick={() => cancleBooking(booking.booking_id)}>Cancel</button>
     </div>
@@ -36,14 +51,12 @@ export const BookingItem = ({ booking, cancleBooking }) => {
 }
 
 export const Booking = () => {
-  const history = useHistory()
   const { auth, setAuth } = useContext(AuthContext)
 
   const [bookings, setBookings] = useState([])
 
   useEffect(() => {
     const { token } = auth
-
     if (token) {
       getBookings({ token }).then((res) => {
         const { status, error, data } = res.data
@@ -54,7 +67,7 @@ export const Booking = () => {
         }
       })
     }
-  }, [bookings])
+  }, [auth, bookings])
 
   const cancleBooking = (booking_id) => {
     deleteBooking({ token: auth.token, booking_id }).then((res) => {
@@ -62,7 +75,9 @@ export const Booking = () => {
       if (status == 'error') {
         alert(error)
       } else {
-        setBookings(bookings.filter(booking=>booking.booking_id != booking_id))
+        setBookings(
+          bookings.filter((booking) => booking.booking_id != booking_id)
+        )
         alert(`Booking ${data.booking_id} has been canceled`)
       }
     })

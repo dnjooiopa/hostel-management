@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 import { bookRoom, getHotelData } from '../api'
 import { AuthContext } from '../context'
@@ -39,14 +39,14 @@ const BookingBox = ({ setCheckInDate, setCheckOutDate, setNumberOfGuest }) => {
           check-in:{' '}
           <input
             type="date"
-            onChange={(e) => setCheckInDate(new Date(e.target.value))}
+            onChange={(e) => setCheckInDate(e.target.value)}
           />
         </div>
         <div className="ml-2">
           check-out:{' '}
           <input
             type="date"
-            onChange={(e) => setCheckOutDate(new Date(e.target.value))}
+            onChange={(e) => setCheckOutDate(e.target.value)}
           />
         </div>
         <div className="ml-2">
@@ -65,9 +65,11 @@ const BookingBox = ({ setCheckInDate, setCheckOutDate, setNumberOfGuest }) => {
 }
 
 export const Hotel = () => {
+  const history = useHistory()
+  const { hotel_id } = useParams()
+
   const { auth } = useContext(AuthContext)
 
-  const { hotel_id } = useParams()
   const [name, setName] = useState('')
   const [city, setCity] = useState('')
   const [detail, setDetail] = useState('')
@@ -77,8 +79,8 @@ export const Hotel = () => {
   const [longitude, setLongitude] = useState(0)
   const [rooms, setRooms] = useState([])
 
-  const [checkInDate, setCheckInDate] = useState(new Date())
-  const [checkOutDate, setCheckOutDate] = useState(new Date())
+  const [checkInDate, setCheckInDate] = useState(new Date().toUTCString())
+  const [checkOutDate, setCheckOutDate] = useState(new Date().toUTCString())
   const [numberOfGuest, setNumberOfGuest] = useState(1)
 
   useEffect(() => {
@@ -104,7 +106,8 @@ export const Hotel = () => {
   const handleBooking = (room) => {
     const { token } = auth
     if (!token) {
-      return alert('You have to log in first!')
+      alert('You have to log in first!')
+      return history.push('/login')
     }
 
     const { room_id, max_guest } = room
@@ -113,32 +116,26 @@ export const Hotel = () => {
       return alert('Number of guest is exceeded!')
     }
 
-    checkInDate.setHours(12)
-    checkInDate.setMinutes(0)
-    checkOutDate.setHours(12)
-    checkOutDate.setMinutes(0)
+    const check_in_date = new Date(checkInDate)
+    const check_out_date = new Date(checkOutDate)
+    const booking_date = new Date()
 
-    if (!validateDate(checkInDate, checkOutDate)) {
+    check_in_date.setHours(12)
+    check_in_date.setMinutes(0)
+    check_out_date.setHours(12)
+    check_out_date.setMinutes(0)
+
+    if (!validateDate(check_in_date, check_out_date)) {
       return alert('Invalid check-in check-out date!')
     }
-
-    console.table({
-      token,
-      hotel_id,
-      room_id,
-      check_in_date: checkInDate,
-      check_out_date: checkOutDate,
-      booking_date: new Date(),
-      no_guest: numberOfGuest,
-    })
 
     bookRoom({
       token,
       hotel_id,
       room_id,
-      check_in_date: checkInDate,
-      check_out_date: checkOutDate,
-      booking_date: new Date(),
+      check_in_date: check_in_date,
+      check_out_date: check_out_date,
+      booking_date: booking_date,
       no_guest: numberOfGuest,
     })
       .then((res) => {
@@ -146,7 +143,6 @@ export const Hotel = () => {
         if (status == 'error') {
           alert(error)
         } else {
-          console.table(data)
           alert('You have successfully booked room')
         }
       })
